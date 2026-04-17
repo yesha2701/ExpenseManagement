@@ -7,7 +7,7 @@
 
 import { StatusBar, StyleSheet, useColorScheme } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import Login from './src/screens/Login';
+import StackNavigator from './src/navigation/StackNavigator';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -23,7 +23,7 @@ function App() {
 function AppContent() {
   return (
     <SafeAreaView style={styles.container}>
-      <Login />
+      <StackNavigator />
     </SafeAreaView>
   );
 }

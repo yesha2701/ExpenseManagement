@@ -6,28 +6,40 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { styles } from './CustomTextinputStyle';
+import { styles } from './CustomTextInputStyle';
 import React, { memo } from 'react';
 
-interface CustomTextinputProps {
+interface CustomTextInputProps {
   placeholder: string;
   label?: string;
   source?: ImageProps;
   secureTextEntry?: boolean;
   rightIcon?: ImageProps;
+  placeholderTextColor: string;
 }
 
-export const CustomTextinput: React.FC<CustomTextinputProps> = memo(
-  ({ placeholder, label, source, rightIcon, secureTextEntry }) => {
+export const CustomTextInput: React.FC<CustomTextInputProps> = memo(
+  ({
+    placeholder,
+    label,
+    source,
+    rightIcon,
+    secureTextEntry,
+    placeholderTextColor,
+  }) => {
     return (
       <View style={styles.container}>
         {label && <Text style={styles.label}>{label}</Text>}
         <View>{source && <Image source={source} />}</View>
         <View style={styles.textInputView}>
-          <TextInput placeholder={placeholder} style={styles.textInput} />
+          <TextInput
+            placeholder={placeholder}
+            style={styles.textInput}
+            placeholderTextColor={placeholderTextColor}
+          />
           {(secureTextEntry || rightIcon) && (
             <TouchableOpacity>
-              {secureTextEntry && <Image source={source} />}
+              {secureTextEntry && <Image source={rightIcon} />}
             </TouchableOpacity>
           )}
         </View>
