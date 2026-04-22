@@ -1,23 +1,26 @@
 import React, { memo } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './CustomHeaderStyle';
 import { icons } from '../../assets/icons';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../types/NavigationTypes';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface CustomHeaderProps {
   label: string;
 }
 
 export const CustomHeader: React.FC<CustomHeaderProps> = memo(({ label }) => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const onNavigation = () => {
+    navigation.navigate('Login');
+  };
   return (
     <View style={styles.headerView}>
-      <View style={styles.arrowView}>
+      <TouchableOpacity onPress={onNavigation} style={styles.arrowView}>
         <Image source={icons.chevron_left} style={styles.arrowImg} />
-      </View>
-
-      {/* Center title */}
+      </TouchableOpacity>
       <Text style={styles.text}>{label}</Text>
-
-      {/* Right placeholder to keep title centered */}
       <View style={styles.emptyView} />
     </View>
   );

@@ -1,18 +1,20 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../Themes/Colors';
-import { moderateScale, verticalScale } from '../Themes/Metrics';
+import {
+  horizontalScale,
+  moderateScale,
+  verticalScale,
+} from '../Themes/Metrics';
 
 export const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
     borderRadius: moderateScale(14),
-    borderColor: colors.grey,
-    backgroundColor: colors.disable,
-    paddingHorizontal: verticalScale(10),
     flexDirection: 'row',
     alignItems: 'center',
     gap: moderateScale(5),
     marginVertical: verticalScale(12),
+    paddingHorizontal: horizontalScale(10),
   },
   label: {
     fontSize: moderateScale(16),
@@ -28,5 +30,13 @@ export const styles = StyleSheet.create({
   textInput: {
     paddingVertical: verticalScale(10),
     fontSize: moderateScale(16),
+  },
+  focusStyle: {
+    backgroundColor: colors.white,
+    borderColor: colors.focus,
+  },
+  blurStyle: {
+    backgroundColor: colors.disable,
+    borderColor: colors.grey,
   },
 });

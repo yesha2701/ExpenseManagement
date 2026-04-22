@@ -6,4 +6,8 @@ export const colors = {
   grey: '#DCDFE3',
   white: 'white',
   secondary: '#B0B8BF',
+  gray: '#EBEEF0',
+  darkgrey: '#6B7580',
+  shadow: '#1262FB52',
+  focus: '#37ABFF',
 };

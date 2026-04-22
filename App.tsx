@@ -8,6 +8,8 @@
 import { StatusBar, StyleSheet, useColorScheme } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import StackNavigator from './src/navigation/StackNavigator';
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -23,7 +25,9 @@ function App() {
 function AppContent() {
   return (
     <SafeAreaView style={styles.container}>
-      <StackNavigator />
+      <Provider store={store}>
+        <StackNavigator />
+      </Provider>
     </SafeAreaView>
   );
 }

@@ -11,7 +11,11 @@ const Stack = createStackNavigator<RootStackParamList>();
 const StackNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
       </Stack.Navigator>

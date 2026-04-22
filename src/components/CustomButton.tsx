@@ -1,11 +1,12 @@
 import React, { memo } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { ImageProps, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './CustomButtonStyle';
 import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../Themes/Colors';
 
 interface CustomButton {
-  label: string;
+  label?: string;
+  source?: ImageProps;
   onPress: () => void;
 }
 
