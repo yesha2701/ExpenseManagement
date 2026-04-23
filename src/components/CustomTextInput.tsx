@@ -5,29 +5,106 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from 'react-native';
-import { styles } from './CustomTextinputStyle';
-import React, { memo } from 'react';
+import { styles } from './CustomTextInputStyle';
+import React, {
+  forwardRef,
+  memo,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
+import { icons } from '../../assets/icons';
 
-interface CustomTextinputProps {
+interface CustomTextInputProps {
   placeholder: string;
   label?: string;
   source?: ImageProps;
   secureTextEntry?: boolean;
   rightIcon?: ImageProps;
+  placeholderTextColor?: string;
+  textInputStyle?: ViewStyle;
+  onSubmitEditing?: () => void;
+  returnKeyType?: 'done' | 'go' | 'next' | 'send';
+  onChangeText?: (val: string) => void;
+  value?: string;
+  editable?: boolean;
 }
 
-export const CustomTextinput: React.FC<CustomTextinputProps> = memo(
-  ({ placeholder, label, source, rightIcon, secureTextEntry }) => {
+interface CustomTextInputRef {
+  focus: () => void;
+  blur: () => void;
+  clear: () => void;
+}
+
+const CustomTextInput = forwardRef<CustomTextInputRef, CustomTextInputProps>(
+  (
+    {
+      placeholder,
+      label,
+      source,
+      rightIcon,
+      secureTextEntry,
+      placeholderTextColor,
+      textInputStyle,
+      onSubmitEditing,
+      returnKeyType,
+      onChangeText,
+      value,
+      editable,
+      ...props
+    },
+    ref,
+  ) => {
+    const [isFocused, setIsFocused] = useState(false);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const inputRef = useRef<TextInput>(null);
+
+    useImperativeHandle(ref, () => ({
+      focus: () => inputRef.current?.focus(),
+      blur: () => inputRef.current?.blur(),
+      clear: () => inputRef.current?.clear(),
+    }));
+
+    const handleFocus = () => setIsFocused(true);
+    const handleBlur = () => setIsFocused(false);
+
+    const onTogglePassword = () => {
+      setIsPasswordVisible(!isPasswordVisible);
+    };
+
     return (
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          textInputStyle,
+          isFocused ? styles.focusStyle : styles.blurStyle,
+        ]}
+      >
         {label && <Text style={styles.label}>{label}</Text>}
         <View>{source && <Image source={source} />}</View>
         <View style={styles.textInputView}>
-          <TextInput placeholder={placeholder} style={styles.textInput} />
+          <TextInput
+            placeholder={placeholder}
+            style={styles.textInput}
+            placeholderTextColor={placeholderTextColor}
+            secureTextEntry={secureTextEntry && !isPasswordVisible}
+            ref={inputRef}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onSubmitEditing={onSubmitEditing}
+            returnKeyType={returnKeyType}
+            onChangeText={onChangeText}
+            value={value}
+            editable={editable}
+            {...props}
+          />
           {(secureTextEntry || rightIcon) && (
-            <TouchableOpacity>
-              {secureTextEntry && <Image source={source} />}
+            <TouchableOpacity onPress={onTogglePassword}>
+              <Image
+                source={isPasswordVisible ? icons.eye : icons.eye_hidden}
+              />
             </TouchableOpacity>
           )}
         </View>
@@ -35,3 +112,5 @@ export const CustomTextinput: React.FC<CustomTextinputProps> = memo(
     );
   },
 );
+
+export default memo(CustomTextInput);

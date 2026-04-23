@@ -19,7 +19,4 @@ export const styles = StyleSheet.create({
     fontSize: moderateScale(30),
     fontWeight: 'bold',
   },
-  loginBtn: {
-    borderWidth: 2,
-  },
 });
