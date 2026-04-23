@@ -8,7 +8,7 @@ import { colors } from '../Themes/Colors';
 
 export const styles = StyleSheet.create({
   button: {
-    top: verticalScale(-5),
+    bottom: verticalScale(5),
     justifyContent: 'center',
     alignItems: 'center',
   },
