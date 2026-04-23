@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
   text: {
     fontSize: moderateScale(16),
     marginLeft: horizontalScale(4),
-    marginTop: verticalScale(10),
+    marginTop: verticalScale(5),
     color: colors.lightGrey,
     fontWeight: '600',
   },
@@ -44,7 +44,19 @@ export const styles = StyleSheet.create({
     borderColor: colors.lightGrey,
     backgroundColor: colors.white,
   },
+  dropdown: {
+    borderWidth: moderateScale(2),
+    padding: moderateScale(10),
+    borderColor: colors.lightGrey,
+    borderRadius: moderateScale(10),
+    fontSize: moderateScale(16),
+    backgroundColor: colors.white,
+    marginVertical: verticalScale(6),
+  },
+  placeholderStyle: {
+    color: colors.lightGrey,
+  },
   errorText: {
-    color: 'red',
+    color: colors.red,
   },
 });

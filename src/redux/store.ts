@@ -7,10 +7,7 @@ const persistConfig = { key: 'root', storage: AsyncStorage };
 const persistedReducer = persistReducer(persistConfig, ItemReducer);
 export const store = configureStore({
   reducer: persistedReducer,
+  middleware: getDefault => getDefault({ serializableCheck: false }),
 });
 export const persistedStore = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
-
-//   middleware: (getDefaultMiddleware) =>
-//     getDefaultMiddleware({ serializableCheck: false }), // Required for redux-persist
-// });

@@ -8,7 +8,7 @@ import {
 
 export const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
+    borderWidth: moderateScale(1),
     borderRadius: moderateScale(14),
     flexDirection: 'row',
     alignItems: 'center',
@@ -30,6 +30,8 @@ export const styles = StyleSheet.create({
   textInput: {
     paddingVertical: verticalScale(10),
     fontSize: moderateScale(16),
+    flex: 1,
+    paddingRight: horizontalScale(4),
   },
   focusStyle: {
     backgroundColor: colors.white,

@@ -5,10 +5,10 @@ import { styles } from './LoginStyle';
 import { icons } from '../../assets/icons';
 import { colors } from '../Themes/Colors';
 import { CustomButton } from '../components/CustomButton';
-import { strings } from '../utilities/Strings';
+import { strings } from '../utilities/strings';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../types/NavigationTypes';
+import { RootStackParamList } from '../types/navigationTypes';
 import CustomTextInput from '../components/CustomTextInput';
 
 const Login = () => {

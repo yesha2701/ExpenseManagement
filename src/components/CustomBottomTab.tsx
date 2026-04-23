@@ -6,7 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../Themes/Colors';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../types/NavigationTypes';
+import { RootStackParamList } from '../types/navigationTypes';
 
 export const CustomBottomTab = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();

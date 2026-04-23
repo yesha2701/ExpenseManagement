@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -11,12 +12,34 @@ import { styles } from './AddExpenseStyle';
 import { CustomHeader } from '../components/CustomHeader';
 import CalendarPicker from 'react-native-calendar-picker';
 import { colors } from '../Themes/Colors';
-import { strings } from '../utilities/Strings';
+import { strings } from '../utilities/strings';
 import { CustomButton } from '../components/CustomButton';
 import CustomTextInput from '../components/CustomTextInput';
 import Moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem, Todo, updateItem } from '../redux/slice/ItemSlice';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { RootStackParamList } from '../types/navigationTypes';
+import { RootState } from '../redux/store';
+import { Dropdown } from 'react-native-element-dropdown';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 const AddExpense = () => {
+  const navigation =
+    useNavigation<BottomTabNavigationProp<RootStackParamList>>();
+  const onNavigation = () => {
+    navigation.navigate('Home');
+  };
+
+  const titleOptions = [
+    { label: 'Food', value: 'Food' },
+    { label: 'Bike', value: 'Bike' },
+    { label: 'Movie', value: 'Movie' },
+    { label: 'Rent', value: 'Rent' },
+    { label: 'Bill', value: 'Bill' },
+    { label: 'Shopping', value: 'Shopping' },
+  ];
+
   const [id, setId] = useState('');
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
@@ -24,18 +47,36 @@ const AddExpense = () => {
   const [errors, setErrors] = useState({ field: '', message: '' });
 
   const idRef = useRef<TextInput>(null);
-  const titleRef = useRef<TextInput>(null);
   const amountRef = useRef<TextInput>(null);
+
+  const dataList = useSelector((state: RootState) => state.items);
+  const dispatch = useDispatch();
+
+  const route = useRoute();
+  const data = route.params as { isEdit: boolean; item: Todo };
+  const editItem = data?.item;
+  const isEdit = data?.isEdit;
 
   useEffect(() => {
     idRef.current?.focus();
-  }, []);
+    if (isEdit === true) {
+      setId(editItem.id);
+      setTitle(editItem.title);
+      setAmount(editItem.amount);
+      setDateSelect(editItem.dateSelect);
+    } else {
+      setId('');
+      setTitle('');
+      setAmount('');
+      setDateSelect('');
+    }
+  }, [isEdit, editItem]);
 
-  // const clearInput = () => {
-  //   setId('');
-  //   setTitle('');
-  //   setAmount('');
-  // };
+  const clearInput = () => {
+    setId('');
+    setTitle('');
+    setAmount('');
+  };
 
   const handleChange = (field: 'id' | 'title' | 'amount', value: string) => {
     if (field === 'id') setId(value);
@@ -46,7 +87,7 @@ const AddExpense = () => {
     }
   };
 
-  const onValidate = () => {
+  const onHandleSubmit = () => {
     let formError = { field: '', message: '' };
 
     if (id.trim() === '') {
@@ -64,84 +105,33 @@ const AddExpense = () => {
       formError.message = 'amount is Required';
       setErrors(formError);
       return;
+    } else if (dateSelect.trim() === '') {
+      formError.field = 'dateSelect';
+      formError.message = 'date is Required';
+      setErrors(formError);
+      return;
     }
-  };
 
-  const onHandleSubmit = async () => {
-    onValidate();
-
-    // const multiParam = {
-    //   id:id,
-    //   title:title,
-    //   amount:amount,
-    //   date:dateSelect
-    // }
-
-    try {
-    } catch (e) {
-      console.log('Error :>> ', e);
+    if (isEdit === true) {
+      dispatch(updateItem({ id, title, amount, dateSelect }));
+    } else {
+      if (dataList.map(x => x.id).includes(id)) {
+        Alert.alert('Id already existed Please enter new id');
+        idRef.current?.focus();
+      } else {
+        dispatch(addItem({ id, title, amount, dateSelect }));
+      }
     }
+
+    clearInput();
+    onNavigation();
   };
-
-  // const handleOnSubmit = async () => {
-  //   const multiParam = {
-  //     id: id,
-  //     title: title,
-  //     priority: priority,
-  //     status: status,
-  //     category: category,
-  //     durationSeconds: durationSeconds,
-  //     remainingSeconds: remainingSeconds,
-  //     createdAt: IsoFormattedDate,
-  //   };
-
-  //   try {
-  //     const existingDataString = await AsyncStorage.getItem("userData");
-  //     let existingData = existingDataString
-  //       ? JSON.parse(existingDataString)
-  //       : [];
-
-  //     if (isEdit === true) {
-  //       const updateTitle = existingData.map((item) => {
-  //         if (item.id === onEditData.id) {
-  //           return { ...item, title };
-  //         }
-  //         return item;
-  //       });
-  //       await AsyncStorage.setItem("userData", JSON.stringify(updateTitle));
-  //       setNewData(updateTitle);
-  //     } else {
-  //       if (Array.isArray(existingData)) {
-  //         if (existingData.map((x) => x.id).includes(multiParam.id)) {
-  //           Alert.alert("Id already existed");
-  //         } else {
-  //           existingData.push(multiParam);
-  //         }
-  //       } else {
-  //         console.error("Existing data is not an array. Cannot push new data.");
-  //         return;
-  //       }
-  //       await AsyncStorage.setItem("userData", JSON.stringify(existingData));
-  //       setNewData(existingData);
-  //     }
-  //     console.log("Data successfully saved and updated");
-  //     setId("");
-  //     setTitle("");
-  //     setPriority("");
-  //     setStatus("");
-  //     setCategory("");
-  //     setDuration("");
-  //     setRemaining("");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const onDateChange = (date: Date) => {
     const formatDate = Moment(date)?.format('DD MMMM YYYY');
     setDateSelect(formatDate);
+    setErrors({ field: '', message: '' });
   };
-  console.log('Date---------------------- :>> ', dateSelect);
 
   return (
     <View style={styles.container}>
@@ -164,14 +154,16 @@ const AddExpense = () => {
                 onDateChange={onDateChange}
               />
             </View>
+            {errors.field === 'dateSelect' && (
+              <Text style={styles.errorText}>{errors.message}</Text>
+            )}
             <View style={styles.formView}>
               <Text style={styles.text}>{strings.id}</Text>
               <CustomTextInput
                 placeholder="Enter Your ID"
                 textInputStyle={styles.textInputStyle}
-                ref={idRef}
-                onSubmitEditing={() => titleRef.current?.focus()}
                 returnKeyType="next"
+                editable={isEdit ? false : true}
                 value={id}
                 onChangeText={val => handleChange('id', val)}
               />
@@ -179,14 +171,19 @@ const AddExpense = () => {
                 <Text style={styles.errorText}>{errors.message}</Text>
               )}
               <Text style={styles.text}>{strings.title}</Text>
-              <CustomTextInput
-                placeholder="Enter Your Expense Title"
-                textInputStyle={styles.textInputStyle}
-                ref={titleRef}
-                onSubmitEditing={() => amountRef.current?.focus()}
-                returnKeyType="next"
+              <Dropdown
+                data={titleOptions}
+                labelField="label"
+                valueField="value"
+                placeholder="Select Title"
                 value={title}
-                onChangeText={val => handleChange('title', val)}
+                onConfirmSelectItem={() => amountRef.current?.focus()}
+                onChange={item => {
+                  setTitle(item.value);
+                  setErrors({ field: '', message: '' });
+                }}
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
               />
               {errors.field === 'title' && (
                 <Text style={styles.errorText}>{errors.message}</Text>

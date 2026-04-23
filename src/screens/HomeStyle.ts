@@ -20,13 +20,13 @@ export const styles = StyleSheet.create({
     letterSpacing: moderateScale(1),
     paddingBottom: verticalScale(15),
   },
-  flatlistView: {
+  flatListView: {
     flexDirection: 'row',
     padding: moderateScale(10),
     marginVertical: verticalScale(12),
     justifyContent: 'space-between',
   },
-  leftFlatlistView: {
+  leftFlatListView: {
     flexDirection: 'row',
   },
   iconView: {
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
   },
   dateText: {
-    color: colors.darkgrey,
+    color: colors.darkGrey,
     fontSize: moderateScale(14),
     letterSpacing: moderateScale(1),
   },

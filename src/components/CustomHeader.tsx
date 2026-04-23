@@ -3,7 +3,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './CustomHeaderStyle';
 import { icons } from '../../assets/icons';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../types/NavigationTypes';
+import { RootStackParamList } from '../types/navigationTypes';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 interface CustomHeaderProps {

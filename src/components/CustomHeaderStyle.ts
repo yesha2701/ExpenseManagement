@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   arrowView: {
-    borderWidth: 1,
+    borderWidth: moderateScale(1),
     borderRadius: moderateScale(20),
     borderColor: colors.secondary,
   },

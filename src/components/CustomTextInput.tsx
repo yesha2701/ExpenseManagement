@@ -29,6 +29,7 @@ interface CustomTextInputProps {
   returnKeyType?: 'done' | 'go' | 'next' | 'send';
   onChangeText?: (val: string) => void;
   value?: string;
+  editable?: boolean;
 }
 
 interface CustomTextInputRef {
@@ -51,6 +52,7 @@ const CustomTextInput = forwardRef<CustomTextInputRef, CustomTextInputProps>(
       returnKeyType,
       onChangeText,
       value,
+      editable,
       ...props
     },
     ref,
@@ -95,6 +97,7 @@ const CustomTextInput = forwardRef<CustomTextInputRef, CustomTextInputProps>(
             returnKeyType={returnKeyType}
             onChangeText={onChangeText}
             value={value}
+            editable={editable}
             {...props}
           />
           {(secureTextEntry || rightIcon) && (

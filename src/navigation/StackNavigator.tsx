@@ -2,9 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../screens/Login';
 
-import { RootStackParamList } from '../types/NavigationTypes';
-// import AddExpense from '../screens/AddExpense';
-// import Home from '../screens/Home';
+import { RootStackParamList } from '../types/navigationTypes';
 import BottomNavigator from './BottomNavigator';
 
 const Stack = createStackNavigator<RootStackParamList>();
